@@ -1,24 +1,44 @@
-#box1 {
-  background-color: red;
+body {
+  display: flex;
+  flex-flow: column;
 }
 
-#box2 {
-  background-color: blue;
-}
-#box3 {
-  background-color: green;
+#parent {
+  display: flex;
+  flex-flow: column;
+  width: 600px;
+  margin: 5rem auto;
+   
 }
 
-.common {
-  width: 100px;
-  height: 200px;
-  border-color: green;
+.phrase {
   border-style: solid;
   border-width: 1px;
 }
 
 #parent > div {
-  float: left;
-  clear: none;
-  margin-left: 10px;
+  margin: .25rem;
+  padding: .25rem;
 }
+
+.submit-area {
+  margin: 1rem auto;
+  width: 600px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+
+
+/* USE OR CLEAN!
+
+ #q1 {
+  background-color: red;
+}
+
+#q2 {
+  background-color: blue;
+}
+#box3 {
+  background-color: green;
+} */
