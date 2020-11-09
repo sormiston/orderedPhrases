@@ -1,0 +1,1 @@
+1. convert HTML collection to array so that we are only dealing with divs
