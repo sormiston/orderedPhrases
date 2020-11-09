@@ -8,7 +8,6 @@ body {
   flex-flow: column;
   width: 600px;
   margin: 5rem auto;
-   
 }
 
 .phrase {
@@ -17,8 +16,8 @@ body {
 }
 
 #parent > div {
-  margin: .25rem;
-  padding: .25rem;
+  margin: 0.25rem;
+  padding: 0.25rem;
 }
 
 .submit-area {
@@ -31,17 +30,3 @@ body {
 #result-display {
   align-self: flex-end;
 }
-
-
-/* USE OR CLEAN!
-
- #q1 {
-  background-color: red;
-}
-
-#q2 {
-  background-color: blue;
-}
-#box3 {
-  background-color: green;
-} */
