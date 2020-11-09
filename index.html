@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="main.js"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="parent">
+      <div
+        id="box1"
+        class="common"
+        draggable="true"
+        ondragstart="drag(event)"
+        ondrop="drop(event)"
+        ondragover="allowDrop(event)"
+      >
+        Note 1
+      </div>
+      <div
+        id="box2"
+        class="common"
+        draggable="true"
+        ondragstart="drag(event)"
+        ondrop="drop(event)"
+        ondragover="allowDrop(event)"
+      >
+        Note 2
+      </div>
+      <div
+        id="box3"
+        class="common"
+        draggable="true"
+        ondragstart="drag(event)"
+        ondrop="drop(event)"
+        ondragover="allowDrop(event)"
+      >
+        Note 3
+      </div>
+    </div>
+  </body>
+</html>
