@@ -15,10 +15,11 @@ const correctOrder = Object.freeze({
   q2: 1,
   q3: 2,
   q4: 3,
-  q5: 6,
+  q5: 4,
+  q6: 5
 })
 
-// translate phrases object to an array of objects for sorting
+// translate 'phrases' object into an array of objects for sorting / handling
 const phrasesArr = []
 for (const [placeNum, text] of Object.entries(phrases)) {
   phrasesArr.push({ placeNum, text })
@@ -54,12 +55,46 @@ shuffledPhrasesArr.forEach(phraseObj => {
   newDiv.id = phraseObj.placeNum
   newDiv.innerText = phraseObj.text
   newDiv.classList.add('phrase')
+  
+  newDiv.classList.add('border', 'p-2')
+  
   newDiv.setAttribute('draggable', true)
   newDiv.setAttribute('ondragstart', 'drag(event)')
   newDiv.setAttribute('ondrop', 'drop(event)')
   newDiv.setAttribute('ondragover', 'allowDrop(event)')
   document.getElementById('parent').appendChild(newDiv)
 });
+
+
+// Check Answer logic 
+function checkAnswer() {
+  // make tabulations and render pass/fail colors to UI
+  let correct = 0
+  let incorrect = 0
+  let submission = [...document.getElementById('parent').children]
+  submission.forEach((phrase, idx) => {
+    if (idx === correctOrder[phrase.id]) {
+      phrase.classList.add('border-success')
+      correct++
+    } else {
+      phrase.classList.add('border-danger')
+      incorrect++
+    }
+    // lock dragging
+    phrase.removeAttribute('draggable')
+  })
+    // render feedback message - with conditional styling for pass/fail
+    let resultDisplay = document.getElementById('result-display')
+    if (correct >= 5) {
+      resultDisplay.classList.add('text-success')
+      resultDisplay.innerText = `${correct}/${correct + incorrect} answers correct!`
+    } else {
+      resultDisplay.classList.add('text-danger')
+      resultDisplay.innerText = `${correct}/${correct + incorrect} answers correct`
+    }
+    
+    
+}
 
 // DRAG AND DROP FUNCTIONALITY
 
@@ -70,14 +105,12 @@ function drag(e) {
 function drop(e) {
   let dragindex = 0
   let dropindex = 0
-  let clone
 
   e.preventDefault()
-  clone = e.target.cloneNode(true)
+  let clone = e.target.cloneNode(true)
 
   let data = e.dataTransfer.getData('text')
   let nodelist = document.getElementById('parent').children
-  console.log(data)
   for (let i = 0; i < nodelist.length; i++) {
     if (nodelist[i].id == data) {
       dragindex = i

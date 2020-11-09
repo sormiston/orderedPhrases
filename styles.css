@@ -28,6 +28,9 @@ body {
   justify-content: flex-end;
 }
 
+#result-display {
+  align-self: flex-end;
+}
 
 
 /* USE OR CLEAN!
