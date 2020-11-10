@@ -12,13 +12,15 @@ body {
 
 .phrase {
   border-style: solid;
-  border-width: 1px;
-}
-
-#parent > div {
+  border-width: 3px !important;
   margin: 0.25rem;
   padding: 0.25rem;
+  transition: border-color 0.2s ease-out;
 }
+
+/* .phrase:hover {
+  border-color: '#ffc107';
+} */
 
 .submit-area {
   margin: 1rem auto;
