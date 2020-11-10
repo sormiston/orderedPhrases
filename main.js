@@ -1,4 +1,5 @@
 // INITIAL DATA
+
 const phrases = {
   q1: 'Hay un muchacho y una muchacha en la clase de matemáticas.',
   q2: 'El maestro dice que los estudiantes necesitan un lápiz.',
@@ -49,29 +50,36 @@ function shuffle(array) {
 // shuffle
 let shuffledPhrasesArr = shuffle(phrasesArr)
 
-// generate HTML elements
+// generate HTML elements + append to document parent container
 shuffledPhrasesArr.forEach((phraseObj) => {
   const newDiv = document.createElement('div')
   newDiv.id = phraseObj.placeNum
   newDiv.innerText = phraseObj.text
   newDiv.classList.add('phrase')
-
   newDiv.classList.add('border', 'p-2')
-
+  
+  // dom event callbacks follow the "attribute" pattern for easier cloning
   newDiv.setAttribute('draggable', true)
   newDiv.setAttribute('ondragstart', 'drag(event)')
   newDiv.setAttribute('ondrop', 'drop(event)')
   newDiv.setAttribute('ondragover', 'allowDrop(event)')
+  
+  // overloading dragover - remember to reattach on cloning
+  newDiv.addEventListener('dragover', (e) => dragOver(e))
+  newDiv.setAttribute('ondragleave', 'dragLeave(event)')
+  
   document.getElementById('parent').appendChild(newDiv)
 })
 
 // Check Answer logic
 function checkAnswer() {
-  let data = []
   // make tabulations and render pass/fail colors to UI
+  let data = []
   let correct = 0
   let incorrect = 0
   let submission = [...document.getElementById('parent').children]
+  
+  // answer evaluation logic
   submission.forEach((phrase, idx) => {
     if (idx === correctOrder[phrase.id]) {
       phrase.classList.add('border-success')
@@ -80,9 +88,8 @@ function checkAnswer() {
       phrase.classList.add('border-danger')
       incorrect++
     }
-    // lock dragging
+    // freeze drag n drop functionality - pencils down!
     phrase.removeAttribute('draggable')
-    // build return data object
     data.push({ [phrase.id]: phrase.innerText })
   })
   // render feedback message - with conditional styling for pass/fail
@@ -110,15 +117,20 @@ function checkAnswer() {
 
 function drag(e) {
   e.dataTransfer.setData('text', e.target.id)
+  e.target.classList.add('border-primary')
 }
 
 function drop(e) {
+  // event target refers to the dropzone node
   let dragindex = 0
   let dropindex = 0
 
   e.preventDefault()
+  // temp variable for dropzone element
   let clone = e.target.cloneNode(true)
-
+  // re-attach eventListener
+  clone.addEventListener('dragover', (e) => dragOver(e))
+  
   let data = e.dataTransfer.getData('text')
   let nodelist = document.getElementById('parent').children
   for (let i = 0; i < nodelist.length; i++) {
@@ -128,10 +140,18 @@ function drop(e) {
       if (clone.id === nodelist[i].id) return
     }
   }
+  // normalize style of dropzone
+  setTimeout(() => {
+    clone.classList.remove('border-warning')
+  }, 300)
 
-  document
-    .getElementById('parent')
-    .replaceChild(document.getElementById(data), e.target)
+  // normalize style of droppable
+  let dragging = document.getElementById(data)
+  setTimeout(() => {
+    dragging.classList.remove('border-primary')
+  }, 300)
+
+  document.getElementById('parent').replaceChild(dragging, e.target)
 
   document
     .getElementById('parent')
@@ -140,4 +160,15 @@ function drop(e) {
 
 function allowDrop(e) {
   e.preventDefault()
+}
+
+// style valid dropzones on movement
+function dragOver(e) {
+  if (e.target.nodeType === 1)
+    e.target.classList.add('border-warning')
+}
+
+function dragLeave(e) {
+  if (e.target.nodeType === 1)
+    e.target.classList.remove('border-warning')
 }
