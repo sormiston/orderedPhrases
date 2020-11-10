@@ -143,13 +143,13 @@ function drop(e) {
   // normalize style of dropzone
   setTimeout(() => {
     clone.classList.remove('border-warning')
-  }, 500)
+  }, 300)
 
   // normalize style of droppable
   let dragging = document.getElementById(data)
   setTimeout(() => {
     dragging.classList.remove('border-primary')
-  }, 500)
+  }, 300)
 
   document.getElementById('parent').replaceChild(dragging, e.target)
 
