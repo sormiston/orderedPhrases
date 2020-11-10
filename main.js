@@ -132,7 +132,7 @@ function drag(e) {
 
 function drop(e) {
   // event target refers to the dropzone node
-  let dragindex = 0;
+  let dragIndex = 0;
   e.preventDefault();
   // temp variable for dropzone element
   let clone = e.target.cloneNode(true);
@@ -140,15 +140,15 @@ function drop(e) {
   // clone.addEventListener('dragover', (e) => dragOver(e));
 
   let data = e.dataTransfer.getData('text');
-  let nodelist = document.getElementById('parent').children;
-  for (let i = 0; i < nodelist.length; i++) {
-    if (nodelist[i].id == data) {
-      dragindex = i;
+  let nodeList = document.getElementById('parent').children;
+  for (let i = 0; i < nodeList.length; i++) {
+    if (nodeList[i].id == data) {
+      dragIndex = i;
       // prevent duplication
       
-      if (clone.id === nodelist[i].id) {
+      if (clone.id === nodeList[i].id) {
         // TODO add style normalization
-        nodelist[i].classList.remove('border-primary', 'border-warning')
+        nodeList[i].classList.remove('border-primary', 'border-warning')
         return;
       } 
     }
@@ -169,7 +169,7 @@ function drop(e) {
 
   document
     .getElementById('parent')
-    .insertBefore(clone, nodelist[dragindex]);
+    .insertBefore(clone, nodeList[dragIndex]);
 }
 
 function allowDrop(e) {
