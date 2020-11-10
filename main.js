@@ -43,7 +43,6 @@ function shuffle(array) {
     array[counter] = array[index];
     array[index] = temp;
   }
-
   return array;
 }
 
@@ -60,16 +59,25 @@ shuffledPhrasesArr.forEach((phraseObj) => {
 
   // dom event callbacks follow the "attribute" pattern for easier cloning
   newDiv.setAttribute('draggable', true);
-  newDiv.setAttribute('ondragstart', 'drag(event)');
-  newDiv.setAttribute('ondrop', 'drop(event)');
-  newDiv.setAttribute('ondragover', 'allowDrop(event)');
-
+  newDiv.setAttribute('ondragstart', 'drag(event)')
+  // newDiv.setAttribute('ondragstart', 'drag(event)');
+  // newDiv.setAttribute('ondrop', 'drop(event)');
+  // newDiv.setAttribute('ondragover', 'allowDrop(event)');
   // overloading dragover - remember to reattach on cloning
-  newDiv.addEventListener('dragover', (e) => dragOver(e));
-  newDiv.setAttribute('ondragleave', 'dragLeave(event)');
+  // newDiv.addEventListener('dragover', (e) => dragOver(e));
+  // newDiv.setAttribute('ondragleave', 'dragLeave(event)');
 
   document.getElementById('parent').appendChild(newDiv);
 });
+
+// document-wide event listeners
+document.addEventListener("dragstart", (e) => drag(e))
+document.addEventListener("drop", (e) => drop(e))
+document.addEventListener("dragover", (e) => {
+  allowDrop(e)
+  dragOver(e)
+})
+document.addEventListener("dragleave", (e) => dragLeave(e))
 
 // Check Answer logic
 function checkAnswer() {
@@ -120,7 +128,6 @@ function checkAnswer() {
 function drag(e) {
   e.dataTransfer.setData('text', e.target.id);
   e.target.classList.add('border-primary');
-  console.log(e.dataTransfer)
 }
 
 function drop(e) {
@@ -130,7 +137,7 @@ function drop(e) {
   // temp variable for dropzone element
   let clone = e.target.cloneNode(true);
   // re-attach eventListener
-  clone.addEventListener('dragover', (e) => dragOver(e));
+  // clone.addEventListener('dragover', (e) => dragOver(e));
 
   let data = e.dataTransfer.getData('text');
   let nodelist = document.getElementById('parent').children;
@@ -138,8 +145,12 @@ function drop(e) {
     if (nodelist[i].id == data) {
       dragindex = i;
       // prevent duplication
-      // TODO add style normalization
-      if (clone.id === nodelist[i].id) return;
+      
+      if (clone.id === nodelist[i].id) {
+        // TODO add style normalization
+        nodelist[i].classList.remove('border-primary', 'border-warning')
+        return;
+      } 
     }
   }
   // normalize style of dropzone
